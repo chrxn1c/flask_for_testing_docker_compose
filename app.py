@@ -31,13 +31,13 @@ create_table_query = '''
 CREATE TABLE IF NOT EXISTS example_table (
     id SERIAL PRIMARY KEY,
     data TEXT
-)
+);
 '''
 cursor.execute(create_table_query)
 
 create_table_query = '''
     INSERT INTO example_table VALUES (
     1,
-"text"
-)
+    'text'
+);
 '''
