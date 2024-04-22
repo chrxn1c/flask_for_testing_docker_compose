@@ -10,9 +10,9 @@ redis_client = redis.StrictRedis(host=redis_host, port=redis_port, db=redis_db)
 
 pg_host = 'db'
 pg_port = 5432
-pg_db = 'mydatabase'
+pg_db = 'my_db'
 pg_user = 'app_user'
-pg_password = 'securepassword'
+pg_password = 'password'
 conn = psycopg2.connect(host=pg_host, port=pg_port,
 database=pg_db, user=pg_user, password=pg_password)
 cursor = conn.cursor()
@@ -29,8 +29,15 @@ print(f'Data from Redis: {value_from_redis.decode()}')
 
 create_table_query = '''
 CREATE TABLE IF NOT EXISTS example_table (
- id SERIAL PRIMARY KEY,
- data TEXT
+    id SERIAL PRIMARY KEY,
+    data TEXT
 )
 '''
 cursor.execute(create_table_query)
+
+create_table_query = '''
+    INSERT INTO example_table VALUES (
+    1,
+"text"
+)
+'''
