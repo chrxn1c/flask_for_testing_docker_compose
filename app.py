@@ -1,12 +1,36 @@
-from flask import Flask
-
-app = Flask(__name__)
-
-
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+import redis
+import psycopg2
 
 
-if __name__ == '__main__':
-    app.run()
+redis_host = 'redis'
+redis_port = 6379
+redis_db = 0
+redis_client = redis.StrictRedis(host=redis_host, port=redis_port, db=redis_db)
+
+
+pg_host = 'db'
+pg_port = 5432
+pg_db = 'mydatabase'
+pg_user = 'app_user'
+pg_password = 'securepassword'
+conn = psycopg2.connect(host=pg_host, port=pg_port,
+database=pg_db, user=pg_user, password=pg_password)
+cursor = conn.cursor()
+
+
+redis_key = 'example_key'
+redis_value = 'example_value'
+redis_client.set(redis_key, redis_value)
+
+
+value_from_redis = redis_client.get(redis_key)
+print(f'Data from Redis: {value_from_redis.decode()}')
+
+
+create_table_query = '''
+CREATE TABLE IF NOT EXISTS example_table (
+ id SERIAL PRIMARY KEY,
+ data TEXT
+)
+'''
+cursor.execute(create_table_query)
